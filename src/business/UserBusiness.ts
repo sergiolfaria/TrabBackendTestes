@@ -1,20 +1,23 @@
 
-import { UserDatabase } from './../testes/Mock/UserMock';
+import { UserDatabase } from '../../tests/Mock/UserMock';
 
 export class UsersBusiness {
-    nstructor(private UserDatabase: IUserDatabase) {}
+   private userDatabase: UserDatabase;
 
-
-    public async getUserById(id: string) {
-        const user = await this.UserDatabase.getUserById(id);
-        if (!user) {
-            throw new Error("User not found");
-        }
-        return {
-            id: user.getId(),
-            name: user.getName(),
-            email: user.getEmail(),
-            role: user.getRole(),
-        };
-    }
+   constructor(userDatabase: UserDatabase) {
+      this.userDatabase = userDatabase;
+   }
+   
+   public async getUserById(id: string) {
+      const user = await this.userDatabase.getUserById(id);
+      if (!user) {
+         throw new Error("User not found");
+      }
+      return {
+         id: user.getId(),
+         name: user.getName(),
+         email: user.getEmail(),
+         role: user.getRole(),
+      };
+   }
 }
