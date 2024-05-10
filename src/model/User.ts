@@ -1,7 +1,4 @@
-export enum USER_ROLES {
-   NORMAL = "NORMAL",
-   ADMIN = "ADMIN",
-}
+import { USER_ROLES } from "./UserRoles";
 
 export class User {
    constructor(
