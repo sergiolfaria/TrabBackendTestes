@@ -1,4 +1,4 @@
-import { USER_ROLES } from "./UserRoles";
+import { USER_ROLES } from "../types/UserRoles";
 
 export class User {
    constructor(

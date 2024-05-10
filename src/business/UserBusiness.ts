@@ -1,7 +1,7 @@
 
-import { UserDatabase } from '../../tests/Mock/UserMock';
+import { UserDatabase } from '../data/UserData';
 import { User } from '../model/User';
-import { USER_ROLES } from '../model/UserRoles';
+import { USER_ROLES } from '../types/UserRoles';
 
 export class UsersBusiness {
    private userDatabase: UserDatabase;

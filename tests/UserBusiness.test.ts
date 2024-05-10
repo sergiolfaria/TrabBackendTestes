@@ -1,7 +1,7 @@
 import { UsersBusiness } from "../src/business/UserBusiness";
 import { User } from "../src/model/User";
-import { USER_ROLES } from "../src/model/UserRoles";
-import { UserDatabase } from "./Mock/UserMock";
+import { USER_ROLES } from "../src/types/UserRoles";
+import { UserDatabase } from "../src/data/UserData";
 
 describe('testando usuários com dados mockados', () => {
   const userId = "35b62ff4-64af-4721-a4c5-d038c6f730cf";
