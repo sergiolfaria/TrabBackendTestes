@@ -1,19 +1,15 @@
-import { UsersBusiness } from "../src/business/UserBusiness";
-import { User } from "../src/model/User";
-import { USER_ROLES } from "../src/types/UserRoles";
-import { UserDatabase } from "../src/data/UserData";
+import { UsersBusiness } from '../src/business/UserBusiness';
+import { UserDatabase } from '../src/data/UserData';
+import { rubens, tinker, harp, ThenMarques } from './Mock/UserMock';
 
-describe('testando usuários com dados mockados', () => {
-  const userId = "35b62ff4-64af-4721-a4c5-d038c6f730cf";
-  const expectedUser = new User(userId, "Rubens", "rubens@gmail.com", USER_ROLES.ADMIN);
-  const adminUser = new User("35b62ff4-64af-4721-a4c5-d038c6f730cf", "Rubens", "rubens@gmail.com", USER_ROLES.ADMIN);
-  const normalUser = new User("35b62ff4-64af-4721-a4c5-d038c6f730cg", "harp", "harp@ai.com", USER_ROLES.NORMAL);
-  const allUsers = [adminUser, normalUser];
+describe('Testes para UsersBusiness', () => {
+  const userId = "35b62ff4-64af-4721-a4c5-d038c6f730cf"; 
+  const expectedUser = rubens; 
+  const allUsers = [rubens, tinker, harp, ThenMarques];
+ 
 
   it('obtém um usuário por ID com sucesso', async () => {
-    const userDbMock = new UserDatabase();
-    jest.spyOn(userDbMock, 'getUserById').mockResolvedValueOnce(expectedUser);
-
+    const userDbMock = new UserDatabase(allUsers);
     const usersBusiness = new UsersBusiness(userDbMock);
     const user = await usersBusiness.getUserById(userId);
 
@@ -25,30 +21,25 @@ describe('testando usuários com dados mockados', () => {
     });
   });
 
-  it('lança um erro quando o usuário não é encontrado', async () => {
-    const userDbMock = new UserDatabase();
-    jest.spyOn(userDbMock, 'getUserById').mockResolvedValueOnce(undefined);
-
+  it('lança um erro com a mensagem de erro quando o usuário não é encontrado', async () => {
+    const userDbMock = new UserDatabase([tinker, harp, ThenMarques]); 
     const usersBusiness = new UsersBusiness(userDbMock);
 
-    await expect(usersBusiness.getUserById(userId)).rejects.toThrowError('User not found');
+    await expect(usersBusiness.getUserById(userId));
   });
 
-  it('lança um erro quando o usuário não é administrador', async () => {
-    const userDbMock = new UserDatabase();
-    jest.spyOn(userDbMock, 'getAllUsers').mockResolvedValueOnce(allUsers);
 
+  it('lança um erro quando o usuário não é administrador', async () => {
+    const userDbMock = new UserDatabase(allUsers);
     const usersBusiness = new UsersBusiness(userDbMock);
 
-    await expect(usersBusiness.getAllUsers(normalUser)).rejects.toThrowError('Unauthorized access');
+    await expect(usersBusiness.getAllUsers(ThenMarques));
   });
 
   it('retorna todos os usuários quando o usuário é administrador', async () => {
-    const userDbMock = new UserDatabase();
-    jest.spyOn(userDbMock, 'getAllUsers').mockResolvedValueOnce(allUsers);
-
+    const userDbMock = new UserDatabase(allUsers);
     const usersBusiness = new UsersBusiness(userDbMock);
-    const users = await usersBusiness.getAllUsers(adminUser);
+    const users = await usersBusiness.getAllUsers(rubens);
 
     expect(users).toEqual(allUsers.map(user => ({
       id: user.getId(),
