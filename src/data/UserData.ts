@@ -3,7 +3,7 @@ import { User } from '../model/User';
 export class UserDatabase {
   private users: User[];
 
-  constructor(users: User[]) { // Aceita os usuários como parâmetro
+  constructor(users: User[]) { 
     this.users = users;
   }
 
